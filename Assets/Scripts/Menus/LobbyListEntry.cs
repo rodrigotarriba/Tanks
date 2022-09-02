@@ -29,7 +29,7 @@ namespace Tanks
             roomInfo = info;
 
             lobbyNameText.text = roomInfo.Name;
-            lobbyPlayerCountText.text = $"{roomInfo.PlayerCount}/{roomInfo.MaxPlayers}";
+            lobbyPlayerCountText.text = $"{roomInfo.PlayerCount}/{roomInfo.MaxPlayers}"; //make the text show how many people are in the lobby and the max players it enables
         }
 
         private void Start()

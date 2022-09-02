@@ -2,10 +2,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;  
 
 namespace Tanks
 {
-    public class SettingsController : MonoBehaviour
+    public class SettingsController : MonoBehaviourPunCallbacks
     {
         private const float VOLUME_MIN = -80;
         private const float VOLUME_MAX = 0.1f;
@@ -42,7 +44,7 @@ namespace Tanks
             disabledSFXButton.onClick.AddListener(() => SetSound(SFX_ID, true, disabledSFXButton, enabledSFXButton));
         }
 
-        private void OnEnable()
+        public override void OnEnable()
         {
             playerNameInput.text = PlayerPrefs.GetString("PlayerName");
             playerNameInput.Select();
@@ -55,9 +57,19 @@ namespace Tanks
 
             gameObject.SetActive(false);
 
-            PlayerPrefs.SetString("PlayerName", playerNameInput.text);
+            if (!string.IsNullOrEmpty(playerNameInput.text))
+            {
+                PlayerPrefs.SetString("PlayerName", playerNameInput.text);
 
-            // TODO: Update photon local player nickname
+                //Updates photon local player nickname
+                PhotonNetwork.NickName = playerNameInput.text;
+                //PhotonNetwork.LocalPlayer.NickName = playerNameInput.text;
+
+            }
+            
+            
+
+
         }
 
         private void SetSound(string id, bool newValue, Button disabledButton, Button enabledButton)
