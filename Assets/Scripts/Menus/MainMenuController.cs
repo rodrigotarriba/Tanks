@@ -16,6 +16,7 @@ namespace Tanks
         [SerializeField] private SettingsController settingsPopup;
         private Action pendingAction;
 
+        private string playerNickname;
 
         private void Start()
         {
@@ -46,7 +47,12 @@ namespace Tanks
             settingsPopup.Setup();
 
             if (!PlayerPrefs.HasKey("PlayerName"))
-                PlayerPrefs.SetString("PlayerName", "Player #" + Random.Range(0, 9999));
+            {
+                playerNickname = "Player #" + Random.Range(0, 9999);
+                PlayerPrefs.SetString("PlayerName", playerNickname);
+            }
+
+            PhotonNetwork.NickName = PlayerPrefs.GetString("PlayerName");
         }
          
         public override void OnConnectedToMaster()
