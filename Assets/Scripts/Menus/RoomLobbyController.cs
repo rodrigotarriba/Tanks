@@ -24,6 +24,7 @@ namespace Tanks
         /// </summary>
         private Dictionary<Player, PlayerLobbyEntry> lobbyEntries;
 
+        //Check if every player is ready - if all of them are true, it will turn true
         private bool IsEveryPlayerReady => lobbyEntries.Values.ToList().TrueForAll(entry => entry.IsPlayerReady);
 
         private void AddLobbyEntry(Player player)
@@ -86,6 +87,13 @@ namespace Tanks
         }
 
 
+        public override void OnMasterClientSwitched(Player newMasterClient)
+        {
+            //base.OnMasterClientSwitched(newMasterClient); //removing base function
+            UpdateStartButton(); //the start button will 
+
+        }
+
 
         /// <summary>
         /// Show start button only to the master client and when all players are ready
@@ -94,7 +102,6 @@ namespace Tanks
         {
             //We only activate the start button if we are the masterclient and if every other player is ready
             startButton.gameObject.SetActive(PhotonNetwork.IsMasterClient && IsEveryPlayerReady);
-
 
         }
 
@@ -113,6 +120,8 @@ namespace Tanks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("Gameplay");
             //we still need to code what it can and cant do - we are not allowing anyone to enter anymore.
+
+
         }
 
 

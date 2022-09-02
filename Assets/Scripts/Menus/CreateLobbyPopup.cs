@@ -1,10 +1,15 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace Tanks
 {
-    public class CreateLobbyPopup : MonoBehaviour
+    /// <summary>
+    /// Creates a new lobby
+    /// </summary>
+    public class CreateLobbyPopup : MonoBehaviourPunCallbacks
     {
         [SerializeField] private TMP_InputField lobbyNameInput;
 
@@ -20,6 +25,9 @@ namespace Tanks
             if (string.IsNullOrEmpty(lobbyNameInput.text)) return;
 
             // TODO: Create room
+
+            RoomOptions roomOptions = new RoomOptions { IsOpen = true, MaxPlayers = 4 };
+            PhotonNetwork.CreateRoom(lobbyNameInput.text, roomOptions, TypedLobby.Default);
         }
 
         private void OnCloseButtonClicked()
@@ -35,13 +43,16 @@ namespace Tanks
             disablePrivateLobbyButton.onClick.AddListener(() => SetPasswordFields(false));
         }
 
-        public void OnEnable()
+        //Gotta change to override since its a function of the parent Monobehaviour class
+        public override void OnEnable()
         {
             lobbyNameInput.text = string.Empty;
             lobbyNameInput.Select();
             lobbyNameInput.ActivateInputField();
 
             SetPasswordFields(false);
+
+            base.OnEnable();
         }
 
         private void SetPasswordFields(bool isPrivate)
