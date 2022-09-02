@@ -118,8 +118,7 @@ namespace Tanks
             }
 
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LoadLevel("Gameplay");
-            //we still need to code what it can and cant do - we are not allowing anyone to enter anymore.
+            PhotonNetwork.LoadLevel("Gameplay"); //we still need to code what it can and cant do - we are not allowing anyone to enter anymore.
 
 
         }

@@ -16,17 +16,19 @@ namespace Tanks
         [SerializeField] private SettingsController settingsPopup;
         private Action pendingAction;
 
+        private string playerNickname;
 
         private void Start()
         {
-            // TODO: Connect to photon server
-
+            
+            //Connect to photon server
             //Guard clause, only connect if it hasnt been connected yet
             if (!PhotonNetwork.IsConnectedAndReady)
             {
+                Debug.Log($"It is not connected and ready:");
+                
                 //Connects using the Photon App ID from the website and everything we already set up.
                 PhotonNetwork.ConnectUsingSettings();
-
             }
             
              
@@ -45,7 +47,12 @@ namespace Tanks
             settingsPopup.Setup();
 
             if (!PlayerPrefs.HasKey("PlayerName"))
-                PlayerPrefs.SetString("PlayerName", "Player #" + Random.Range(0, 9999));
+            {
+                playerNickname = "Player #" + Random.Range(0, 9999);
+                PlayerPrefs.SetString("PlayerName", playerNickname);
+            }
+
+            PhotonNetwork.NickName = PlayerPrefs.GetString("PlayerName");
         }
          
         public override void OnConnectedToMaster()
@@ -53,8 +60,13 @@ namespace Tanks
             base.OnConnectedToMaster();
             Debug.Log("Succesfully connected to Master");
 
+            //assign the player's nickname in Photon
+
+
             //Here we invoke the pending action, only if its valid (hence the question mark)
             pendingAction?.Invoke();
+            PhotonNetwork.AutomaticallySyncScene = false; //if we are connected to the master, the master will dictate if everyone moves to the next scene when we are ready. 
+
         }
 
 
@@ -81,7 +93,9 @@ namespace Tanks
             
             //Whenever a player has joined a room, we will load a specific scene in the game
             SceneManager.LoadScene("RoomLobby"); 
+
         }
+
 
         //private void OnConnectionDependentActionClicked()
         //{
