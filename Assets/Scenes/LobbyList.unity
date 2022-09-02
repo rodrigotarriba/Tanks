@@ -349,10 +349,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d412232f73a646a38be4ee327037255c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  createNewLobbyButton: {fileID: 0}
+  joinPrivateLobbyButton: {fileID: 0}
+  closeButton: {fileID: 1280223814}
+  lobbyListEntryPrefab: {fileID: 0}
+  entriesHolder: {fileID: 0}
+  createLobbyPopup: {fileID: 0}
+  joinPrivateLobbyPopup: {fileID: 0}
   lobbyNameInput: {fileID: 1758081950}
   enterButton: {fileID: 503234351}
   closeButton: {fileID: 1280223814}
-  invalidPrivateName: {fileID: 0}
+  invalidPrivateName: {fileID: 976164340}
 --- !u!1 &95301998
 GameObject:
   m_ObjectHideFlags: 0
@@ -2734,7 +2741,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 976164338}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 

@@ -103,6 +103,10 @@ namespace Tanks
             SceneManager.LoadScene("RoomLobby"); //Since we are also using this method in the main menu controller, its not present in this scene
         }
 
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            GetComponentInChildren<JoinPrivateLobbyPopup>().privateRoomDoesntExist();
+        }
 
         private void Start()
         {

@@ -12,7 +12,7 @@ namespace Tanks
         [SerializeField] private TMP_InputField lobbyNameInput;
         [SerializeField] private Button enterButton;
         [SerializeField] private Button closeButton;
-        [SerializeField] private GameObject invalidPrivateName;
+        [SerializeField] private TextMeshProUGUI invalidPrivateName;
 
         private string failedRoomName = string.Empty;
  
@@ -20,6 +20,8 @@ namespace Tanks
         {
             enterButton.onClick.AddListener(OnEnterClicked);
             closeButton.onClick.AddListener(OnCloseButtonClicked);
+
+            invalidPrivateName.enabled = false;
         }
 
         public override void OnEnable()
@@ -29,6 +31,7 @@ namespace Tanks
             lobbyNameInput.ActivateInputField();
         }
 
+
         private void OnCloseButtonClicked()
         {
             gameObject.SetActive(false);
@@ -37,18 +40,17 @@ namespace Tanks
         private void OnEnterClicked()
         {
             if (string.IsNullOrEmpty(lobbyNameInput.text)) return;
-            LoadingGraphics.Enable();
-
             // TODO: Join target room
-
             PhotonNetwork.JoinRoom(lobbyNameInput.text);
+            
+        }
+        public void privateRoomDoesntExist()
+        {
+            Debug.Log("private room doesnt exist");
+            failedRoomName = lobbyNameInput.text;
+            invalidPrivateName.enabled = true;
         }
 
-        public override void OnJoinRoomFailed(short returnCode, string message)
-        {
-            failedRoomName = lobbyNameInput.text;
-            invalidPrivateName.SetActive(true);
-        }
 
         public void Update()
         {
@@ -57,7 +59,7 @@ namespace Tanks
                 return;
             }
 
-            invalidPrivateName.SetActive(false);
+            invalidPrivateName.enabled = false;
         }
 
     }
