@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Tanks
@@ -20,6 +22,8 @@ namespace Tanks
         private float turnInputValue;
         private float originalPitch;
         private ParticleSystem[] particleSystems;
+        private PhotonView photonView;
+
 
         public void GotHit(float explosionForce, Vector3 explosionSource, float explosionRadius)
         {
@@ -28,6 +32,10 @@ namespace Tanks
 
         private void Awake()
         {
+            //Get a reference to the photon view attached to this component, which will allow us to manipulate it directly using the commands that we are sending 
+            photonView = GetComponent<PhotonView>();
+
+
             tankRigidbody = GetComponent<Rigidbody>();
 
             tankRigidbody.isKinematic = false;
@@ -93,7 +101,11 @@ namespace Tanks
 
         private void FixedUpdate()
         {
-            // TODO: Only allow owner of this tank to move it
+            //Guard clause, only allow owner of this tank to move it
+            if ((int)photonView.Owner.CustomProperties["Team"] != (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"])
+            {
+                return;
+            }
 
             Move();
             Turn();
