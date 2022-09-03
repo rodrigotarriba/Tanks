@@ -32,7 +32,8 @@ namespace Tanks
             SetupComponents();
 
             //Get player
-            player = photonView.Owner;
+            //player = photonView.Owner;
+            player = PhotonNetwork.LocalPlayer;
             teamConfig = FindObjectOfType<GameManager>().RegisterTank(this, (int)player.CustomProperties["Team"]);
 
             SetupRenderers();
@@ -40,9 +41,10 @@ namespace Tanks
 
         private void SetupComponents()
         {
+            
             //here we need to grab the photon view
             photonView = GetComponent<PhotonView>(); //getting the photon view in this compoonent
-            Debug.Log($"My owner is {photonView.Owner.NickName}");
+            //Debug.Log($"{photonView.Owner}");
 
 
             tankShooting = GetComponent<TankShooting>();
