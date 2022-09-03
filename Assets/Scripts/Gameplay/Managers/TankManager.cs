@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Photon.Realtime;
+using Photon.Pun;
 
 namespace Tanks
 {
@@ -9,6 +11,9 @@ namespace Tanks
         private TankShooting tankShooting;
         private TankHealth tankHealth;
         private GameObject canvasGameObject;
+        private Player player;
+        private PhotonView photonView;
+
 
         // TODO: Get player nickname
         public string ColoredPlayerName => $"<color=#{ColorUtility.ToHtmlStringRGB(teamConfig.color)}>Nickname</color>";
@@ -22,22 +27,35 @@ namespace Tanks
 
         public void Awake()
         {
+            //Here he need to find, not only our photon view, but also our player!
+
+
             SetupComponents();
 
             // TODO: Get team from photon
-            teamConfig = FindObjectOfType<GameManager>().RegisterTank(this, 1);
+
+            //Get player
+            player = photonView.Owner;
+            teamConfig = FindObjectOfType<GameManager>().RegisterTank(this, (int)player.CustomProperties["Team"]);
 
             SetupRenderers();
         }
 
         private void SetupComponents()
         {
+            //here we need to grab the photon view
+            photonView = GetComponent<PhotonView>(); //getting the photon view in this compoonent
+            
             tankShooting = GetComponent<TankShooting>();
             tankHealth = GetComponent<TankHealth>();
             tankMovement = GetComponent<TankMovement>();
             canvasGameObject = GetComponentInChildren<Canvas>().gameObject;
         }
 
+
+        /// <summary>
+        /// Changes all the children mesh renderers to the team configuration color
+        /// </summary>
         private void SetupRenderers()
         {
             MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>();

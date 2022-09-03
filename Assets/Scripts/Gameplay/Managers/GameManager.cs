@@ -4,9 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace Tanks
 {
+    /// <summary>
+    /// The configuration of a team 
+    /// </summary>
     [Serializable]
     public class TeamConfig
     {
@@ -52,10 +57,19 @@ namespace Tanks
             StartRound();
         }
 
+        /// <summary>
+        /// Spawn the player tank regarding your team position in the game, and instantiate the tankPrefab
+        /// It will spawn the prefab for every client
+        /// 
+        /// </summary>
         private void SpawnPlayerTank()
         {
             // TODO: Get team from photon
-            var team = 1;
+            //At the moment our team is 1, but we need to determine our team from the PhotonNetwork
+            //PhotonNetwork has a local player information and its custom properties, and in those we already have a Team.
+            //var team = 1;
+            //We set up a "Team" custom property in the PlayerLobbyEntry
+            var team = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
             var config = teamConfigs[team];
             var spawnPoint = config.spawnPoint;
 
@@ -100,7 +114,7 @@ namespace Tanks
             if (gameWinner != null)
             {
                 // TODO: Leave photon room
-                SceneManager.LoadScene("MainMenu");
+                SceneManager.LoadScene ("MainMenu");
             }
             else StartRound();
         }
