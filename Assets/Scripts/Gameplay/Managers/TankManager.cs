@@ -33,7 +33,7 @@ namespace Tanks
 
             //Get player
             //player = photonView.Owner;
-            player = PhotonNetwork.LocalPlayer;
+            player = photonView.Owner;
             teamConfig = FindObjectOfType<GameManager>().RegisterTank(this, (int)player.CustomProperties["Team"]);
 
             SetupRenderers();

@@ -34,7 +34,7 @@ namespace Tanks
         [SerializeField] private GameObject tankPrefab;
         [SerializeField] private TeamConfig[] teamConfigs;
 
-        private List<TankManager> tankManagers;
+        [SerializeField] private List<TankManager> tankManagers;
 
         private int roundNumber;
         private TankManager roundWinner;
@@ -74,7 +74,7 @@ namespace Tanks
             var config = teamConfigs[team];
             var spawnPoint = config.spawnPoint;
 
-            Instantiate(tankPrefab, spawnPoint.position, spawnPoint.rotation);
+            PhotonNetwork.Instantiate("Tank", spawnPoint.position, spawnPoint.rotation);
         }
 
         private void StartRound()
