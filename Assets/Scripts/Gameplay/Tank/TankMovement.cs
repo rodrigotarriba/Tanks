@@ -66,6 +66,12 @@ namespace Tanks
 
         private void Update()
         {
+            //Guard clause, only allow owner of this tank to move it
+            if (!photonView.IsMine)
+            {
+                return;
+            }
+
             movementInputValue = Input.GetAxis (MOVEMENT_AXIS_NAME);
             turnInputValue = Input.GetAxis (TURN_AXIS_NAME);
 
@@ -102,7 +108,7 @@ namespace Tanks
         private void FixedUpdate()
         {
             //Guard clause, only allow owner of this tank to move it
-            if ((int)photonView.Owner.CustomProperties["Team"] != (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"])
+            if (!photonView.IsMine)
             {
                 return;
             }
