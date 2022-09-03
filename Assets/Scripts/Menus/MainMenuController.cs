@@ -25,7 +25,7 @@ namespace Tanks
             //Guard clause, only connect if it hasnt been connected yet
             if (!PhotonNetwork.IsConnectedAndReady)
             {
-                Debug.Log($"It is not connected and ready:");
+                //Debug.Log($"It is not connected and ready:");
                 
                 //Connects using the Photon App ID from the website and everything we already set up.
                 PhotonNetwork.ConnectUsingSettings();
@@ -58,7 +58,7 @@ namespace Tanks
         public override void OnConnectedToMaster()
         {
             base.OnConnectedToMaster();
-            Debug.Log("Succesfully connected to Master");
+            //Debug.Log("Succesfully connected to Master");
 
             //assign the player's nickname in Photon
 

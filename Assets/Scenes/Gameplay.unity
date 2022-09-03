@@ -154,6 +154,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 575313012}
   m_RootOrder: 0
@@ -246,6 +247,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 1, z: 0.0000000037252899, w: -0.0000001490116}
   m_LocalPosition: {x: -0.49999714, y: 0, z: 28.700008}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1304999366}
   m_RootOrder: 1
@@ -340,6 +342,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 102963700}
   m_Father: {fileID: 0}
@@ -394,6 +397,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -514,7 +518,7 @@ MonoBehaviour:
   endDelay: 3
   cameraController: {fileID: 1771596988}
   messageText: {fileID: 102963701}
-  tankPrefab: {fileID: 173472, guid: 756d3a6506f2f8241b4e8badde68567a, type: 3}
+  tankPrefab: {fileID: 173472, guid: f115431b844ccd64991a76119ad8ae76, type: 3}
   teamConfigs:
   - spawnPoint: {fileID: 1689573469}
     color: {r: 0.09411766, g: 0.33333334, b: 0.12941177, a: 1}
@@ -534,6 +538,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1689573469}
   - {fileID: 194018016}
@@ -789,6 +794,7 @@ Transform:
     w: 1}
   m_LocalPosition: {x: 0, y: -0, z: -65}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1771596987}
   m_RootOrder: 0
@@ -819,6 +825,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 0.70380986, z: -0, w: 0.7103884}
   m_LocalPosition: {x: -32.579716, y: 0, z: 15.5035515}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1304999366}
   m_RootOrder: 0
@@ -850,6 +857,7 @@ Transform:
   m_LocalRotation: {x: 0.29619816, y: 0.46984637, z: -0.1710101, w: 0.81379765}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1391056264}
   m_Father: {fileID: 0}
@@ -897,6 +905,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -29.301662, y: 0, z: -17.563686}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1304999366}
   m_RootOrder: 3
@@ -927,6 +936,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.53394467, z: -0, w: 0.8455194}
   m_LocalPosition: {x: 17.500004, y: 0, z: -9.100001}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1304999366}
   m_RootOrder: 2
@@ -961,6 +971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -993,6 +1004,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5

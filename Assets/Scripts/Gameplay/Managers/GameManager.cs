@@ -70,6 +70,7 @@ namespace Tanks
             //var team = 1;
             //We set up a "Team" custom property in the PlayerLobbyEntry
             var team = (int)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+            Debug.Log($"my team number is {team} ");
             var config = teamConfigs[team];
             var spawnPoint = config.spawnPoint;
 

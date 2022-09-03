@@ -29,10 +29,7 @@ namespace Tanks
         {
             //Here he need to find, not only our photon view, but also our player!
 
-
             SetupComponents();
-
-            // TODO: Get team from photon
 
             //Get player
             player = photonView.Owner;
@@ -45,7 +42,9 @@ namespace Tanks
         {
             //here we need to grab the photon view
             photonView = GetComponent<PhotonView>(); //getting the photon view in this compoonent
-            
+            Debug.Log($"My owner is {photonView.Owner.NickName}");
+
+
             tankShooting = GetComponent<TankShooting>();
             tankHealth = GetComponent<TankHealth>();
             tankMovement = GetComponent<TankMovement>();

@@ -46,7 +46,7 @@ namespace Tanks
         }
         public void privateRoomDoesntExist()
         {
-            Debug.Log("private room doesnt exist");
+            //Debug.Log("private room doesnt exist");
             failedRoomName = lobbyNameInput.text;
             invalidPrivateName.enabled = true;
         }
