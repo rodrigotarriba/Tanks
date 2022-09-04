@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Tanks
@@ -21,6 +23,8 @@ namespace Tanks
         private float chargeSpeed;
         private bool fired;
 
+        private PhotonView photonView;
+
         private void OnEnable()
         {
             currentLaunchForce = minLaunchForce;
@@ -29,12 +33,19 @@ namespace Tanks
 
         private void Start()
         {
+            photonView = GetComponent<PhotonView>();
             chargeSpeed = (maxLaunchForce - minLaunchForce) / maxChargeTime;
         }
 
         private void Update()
         {
             // TODO: Only allow owner of this tank to shoot
+
+            //Guard clause, only allow owner of this tank to shoot
+            if (!photonView.IsMine)
+            {
+                return;
+            }
 
             aimSlider.value = minLaunchForce;
 

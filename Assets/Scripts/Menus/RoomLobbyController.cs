@@ -54,6 +54,9 @@ namespace Tanks
             {
                 AddLobbyEntry(player);
             }
+
+           
+
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
