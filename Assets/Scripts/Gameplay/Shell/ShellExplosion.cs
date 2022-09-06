@@ -33,6 +33,36 @@ namespace Tanks
             TryDamageTanks();
         }
 
+        //private void TryDamageTanks()
+        //{
+        //    //If we are not the masterclient, do not attempt to recognize hits
+        //    if (!PhotonNetwork.IsMasterClient)
+        //    {
+        //        return;
+        //    }
+
+
+        //    Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, tankMask);
+        //    for (int i = 0; i < colliders.Length; i++)
+        //    {
+        //        var tankManager = colliders[i].GetComponent<TankManager>();
+        //        if (tankManager == null) continue;
+
+        //        Rigidbody targetRigidbody = tankManager.GetComponent<Rigidbody>();
+
+
+        //        tankManager.photonView.RPC(
+        //            "OnHit",
+        //            RpcTarget.All,
+        //            explosionForce,
+        //            transform.position,
+        //            explosionRadius,
+        //            CalculateDamage(targetRigidbody.position));
+        //    }
+            
+        //}
+
+
         private void TryDamageTanks()
         {
             //If we are not the masterclient, do not attempt to recognize hits
@@ -41,26 +71,26 @@ namespace Tanks
                 return;
             }
 
-
             Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, tankMask);
             for (int i = 0; i < colliders.Length; i++)
             {
+                var photonView = colliders[i].GetComponent<PhotonView>();
+                if (photonView == null) continue;
+
                 var tankManager = colliders[i].GetComponent<TankManager>();
                 if (tankManager == null) continue;
-
-                if (tankManager.photonView == null) continue;
 
                 Rigidbody targetRigidbody = tankManager.GetComponent<Rigidbody>();
 
                 tankManager.photonView.RPC(
                     "OnHit",
-                    tankManager.photonView.Owner,
+                    photonView.Owner,
                     explosionForce,
                     transform.position,
                     explosionRadius,
                     CalculateDamage(targetRigidbody.position));
             }
-            
+
         }
 
         private float CalculateDamage(Vector3 targetPosition)
