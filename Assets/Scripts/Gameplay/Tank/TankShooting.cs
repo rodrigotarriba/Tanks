@@ -93,8 +93,8 @@ namespace Tanks
             //Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
             //shellInstance.velocity = currentLaunchForce * fireTransform.forward;
 
-            shootingAudio.clip = fireClip;
-            shootingAudio.Play();
+            //shootingAudio.clip = fireClip;
+            //shootingAudio.Play();
 
             currentLaunchForce = minLaunchForce;
         }

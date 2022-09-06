@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using Photon.Realtime;
 
 namespace Tanks
 {
@@ -18,6 +19,7 @@ namespace Tanks
             Destroy(gameObject, maxLifeTime);
         }
 
+
         private void OnTriggerEnter(Collider other)
         {
             explosionParticles.transform.parent = null;
@@ -35,15 +37,27 @@ namespace Tanks
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, tankMask);
 
-            for (int i = 0; i < colliders.Length; i++)
+            if (PhotonNetwork.IsMasterClient)
             {
-                var tankManager = colliders[i].GetComponent<TankManager>();
-                if (tankManager == null) continue;
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    var tankManager = colliders[i].GetComponent<TankManager>();
+                    if (tankManager == null) continue;
 
-                Rigidbody targetRigidbody = tankManager.GetComponent<Rigidbody>();
-                tankManager.OnHit(explosionForce, transform.position, explosionRadius,
-                    CalculateDamage(targetRigidbody.position));
+                    Rigidbody targetRigidbody = tankManager.GetComponent<Rigidbody>();
+                    
+                    
+                    
+                    tankManager.photonView.RPC(
+                        "OnHit",
+                        RpcTarget.All,
+-                       explosionForce, 
+                        transform.position, 
+                        explosionRadius,
+                        CalculateDamage(targetRigidbody.position));
+                }
             }
+            
         }
 
         private float CalculateDamage(Vector3 targetPosition)
