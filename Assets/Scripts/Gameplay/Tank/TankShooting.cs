@@ -79,13 +79,38 @@ namespace Tanks
             fired = true;
 
             // TODO: Instantiate the projectile on all clients
-            Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
-            shellInstance.velocity = currentLaunchForce * fireTransform.forward;
+            photonView.RPC(
+                "Fire",
+                RpcTarget.All,
+                fireTransform.position, //these parameters are within the Fire method
+                fireTransform.rotation,
+                currentLaunchForce * fireTransform.forward
+
+                );
+
+
+
+            //Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
+            //shellInstance.velocity = currentLaunchForce * fireTransform.forward;
 
             shootingAudio.clip = fireClip;
             shootingAudio.Play();
 
             currentLaunchForce = minLaunchForce;
         }
+
+
+        [PunRPC]
+        private void Fire(Vector3 position, Quaternion rotation, Vector3 velocity)
+        {
+            Rigidbody shellInstance = Instantiate(shell, position, rotation);
+            shellInstance.velocity = velocity;
+
+            shootingAudio.clip = fireClip;
+            shootingAudio.Play();
+        }
     }
+
+
+
 }
