@@ -84,11 +84,11 @@ namespace Tanks
 
                 tankManager.photonView.RPC(
                     "OnHit",
-                    photonView.Owner,
+                    RpcTarget.All,
                     explosionForce,
                     transform.position,
                     explosionRadius,
-                    CalculateDamage(targetRigidbody.position));
+                    CalculateDamage(targetRigidbody.position)); ;
             }
 
         }
