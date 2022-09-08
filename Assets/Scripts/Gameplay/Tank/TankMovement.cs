@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,7 +11,8 @@ namespace Tanks
         private const string MOVEMENT_AXIS_NAME = "Vertical";
         private const string TURN_AXIS_NAME = "Horizontal";
 
-        public float speed = 12f;
+        public float regularSpeed = 12f;
+        public float turboSpeed = 24f;
         public float turnSpeed = 180f;
         public AudioSource movementAudio;
         public AudioClip engineIdling;
@@ -23,6 +25,16 @@ namespace Tanks
         private float originalPitch;
         private ParticleSystem[] particleSystems;
         private PhotonView photonView;
+
+
+        //Turbo state factors
+        public ParticleSystem thrusterParticles;
+        public float turboMaxTime;
+        public float coolingMaxTime;
+        private bool isTurboOn = false;
+        private bool isCoolingDown = false;
+        private float speed;
+        private bool turboInput = false;
 
 
         public void GotHit(float explosionForce, Vector3 explosionSource, float explosionRadius)
@@ -75,6 +87,11 @@ namespace Tanks
             movementInputValue = Input.GetAxis (MOVEMENT_AXIS_NAME);
             turnInputValue = Input.GetAxis (TURN_AXIS_NAME);
 
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                TurboCheck();
+            }
+
             EngineAudio();
         }
 
@@ -113,6 +130,7 @@ namespace Tanks
                 return;
             }
 
+
             Move();
             Turn();
         }
@@ -121,6 +139,9 @@ namespace Tanks
 
         private void Move()
         {
+            if (isTurboOn) speed = turboSpeed;
+            else speed = regularSpeed;
+            
             Vector3 movement = transform.forward * movementInputValue * speed * Time.deltaTime;
             tankRigidbody.MovePosition(tankRigidbody.position + movement);
         }
@@ -132,5 +153,77 @@ namespace Tanks
 
             tankRigidbody.MoveRotation(tankRigidbody.rotation * turnRotation);
         }
+
+        private void TurboCheck()
+        {
+            if(isTurboOn || isCoolingDown)
+            {
+                return;
+            }
+
+
+
+            //check if turbo is off and cooldown is off
+
+                   //turbo coroutine
+                        //isturboon is true
+                        //particles are on
+                        //isturboon = false, particles off + speed regular after turbotimer
+                        //cooldown on
+                        //after cooldown timer, cooldown off   
+        }
+
+
+
+        private IEnumerator TurboMode()
+        {
+            yield return null;
+
+            isTurboOn = true;
+            thrusterParticles.gameObject.SetActive(true);
+
+            photonView.RPC(
+                "TurnThrustersOn",
+                RpcTarget.All,
+                true
+                );
+
+            var turboTimer = turboMaxTime;
+
+            while(turboTimer >= 0f)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            
+
+            //Command all clients to turn off the particles
+            photonView.RPC(
+                "TurnThrustersOn",
+                RpcTarget.All,
+                true
+                );
+
+            //turn off turbo mode, turn on cooling mode
+            isTurboOn = false;
+            isCoolingDown = true;
+            var coolingTimer = coolingMaxTime;
+
+            while(coolingTimer >= 0f)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            isCoolingDown = false;
+           
+        }
+
+
+        [PunRPC]
+        public void TurnThrustersOn(bool thrustersState)
+        {
+            thrusterParticles.gameObject.SetActive(thrustersState);
+        }
+
     }
 }
