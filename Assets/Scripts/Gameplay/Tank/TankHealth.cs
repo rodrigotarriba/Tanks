@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
@@ -84,10 +85,12 @@ namespace Tanks
         //Synchronize health across clients
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
+            
             //is writing is true is my client is adding data to the stream
             if (stream.IsWriting)
             {
                 stream.SendNext(currentHealth);
+                
             }
             else //isWriting is false if this is a receiver of data.
             {
