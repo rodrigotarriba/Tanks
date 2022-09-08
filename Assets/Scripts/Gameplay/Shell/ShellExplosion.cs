@@ -84,12 +84,14 @@ namespace Tanks
 
                 tankManager.photonView.RPC(
                     "OnHit",
-                    RpcTarget.All,
+                    //RpcTarget.All,
+                    photonView.Owner, //we are only damaging the client that is receiving the hit, perhaps for resources allocation?
                     explosionForce,
                     transform.position,
                     explosionRadius,
-                    CalculateDamage(targetRigidbody.position)); ;
+                    CalculateDamage(targetRigidbody.position));
             }
+            //But perhaps we dont sync the health until later. 
 
         }
 

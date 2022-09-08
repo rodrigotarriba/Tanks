@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 namespace Tanks
 {
@@ -19,9 +20,10 @@ namespace Tanks
         public Color color;
     }
 
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour, IOnEventCallback
     {
         private const float MAX_DEPENETRATION_VELOCITY = float.PositiveInfinity;
+        private const int ROUND_START_PHOTON_EVENT = 1;
 
         [Header("Balance")]
         [SerializeField] private int numRoundsToWin = 5;
@@ -100,6 +102,9 @@ namespace Tanks
 
         private IEnumerator RoundEnding()
         {
+            PhotonNetwork.LeaveRoom();
+            
+            
             DisableTankControl();
 
             roundWinner = null;
@@ -198,6 +203,28 @@ namespace Tanks
             if (!OneTankLeft()) yield break;
 
             StartCoroutine(RoundEnding());
+        }
+
+        private void OnEnable()
+        {
+            //lets signify that the round has started 
+            //Here we need to add a callback to the Photon Network
+            PhotonNetwork.AddCallbackTarget(this);
+        }
+
+        private void OnDisable()
+        {
+
+            PhotonNetwork.RemoveCallbackTarget(this);
+        }
+
+        public void OnEvent(EventData photonEvent)
+        {
+            //Even though this game manager does not have a photon viewer associated, it is listening to an event
+            if(photonEvent.Code == TankHealth.TANK_DIED_PHOTON_EVENT)
+            {
+                StartCoroutine(HandleTankDeath());
+            }
         }
     }
 }
