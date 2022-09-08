@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Tanks
@@ -21,6 +23,8 @@ namespace Tanks
         private float chargeSpeed;
         private bool fired;
 
+        private PhotonView photonView;
+
         private void OnEnable()
         {
             currentLaunchForce = minLaunchForce;
@@ -29,12 +33,19 @@ namespace Tanks
 
         private void Start()
         {
+            photonView = GetComponent<PhotonView>();
             chargeSpeed = (maxLaunchForce - minLaunchForce) / maxChargeTime;
         }
 
         private void Update()
         {
             // TODO: Only allow owner of this tank to shoot
+
+            //Guard clause, only allow owner of this tank to shoot
+            if (!photonView.IsMine)
+            {
+                return;
+            }
 
             aimSlider.value = minLaunchForce;
 
@@ -68,13 +79,38 @@ namespace Tanks
             fired = true;
 
             // TODO: Instantiate the projectile on all clients
-            Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
-            shellInstance.velocity = currentLaunchForce * fireTransform.forward;
+            photonView.RPC(
+                "Fire",
+                RpcTarget.All,
+                fireTransform.position, //these parameters are within the Fire method
+                fireTransform.rotation,
+                currentLaunchForce * fireTransform.forward
 
-            shootingAudio.clip = fireClip;
-            shootingAudio.Play();
+                );
+
+
+
+            //Rigidbody shellInstance = Instantiate(shell, fireTransform.position, fireTransform.rotation);
+            //shellInstance.velocity = currentLaunchForce * fireTransform.forward;
+
+            //shootingAudio.clip = fireClip;
+            //shootingAudio.Play();
 
             currentLaunchForce = minLaunchForce;
         }
+
+
+        [PunRPC]
+        private void Fire(Vector3 position, Quaternion rotation, Vector3 velocity)
+        {
+            Rigidbody shellInstance = Instantiate(shell, position, rotation);
+            shellInstance.velocity = velocity;
+
+            shootingAudio.clip = fireClip;
+            shootingAudio.Play();
+        }
     }
+
+
+
 }

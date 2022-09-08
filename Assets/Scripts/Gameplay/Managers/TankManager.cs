@@ -12,13 +12,14 @@ namespace Tanks
         private TankHealth tankHealth;
         private GameObject canvasGameObject;
         private Player player;
-        private PhotonView photonView;
+        public PhotonView photonView;
 
 
         // TODO: Get player nickname
         public string ColoredPlayerName => $"<color=#{ColorUtility.ToHtmlStringRGB(teamConfig.color)}>Nickname</color>";
         public int Wins { get; set; }
 
+        [PunRPC]
         public void OnHit(float explosionForce, Vector3 explosionSource, float explosionRadius, float damage)
         {
             tankMovement.GotHit(explosionForce, explosionSource, explosionRadius);
@@ -32,6 +33,7 @@ namespace Tanks
             SetupComponents();
 
             //Get player
+            //player = photonView.Owner;
             player = photonView.Owner;
             teamConfig = FindObjectOfType<GameManager>().RegisterTank(this, (int)player.CustomProperties["Team"]);
 
@@ -40,9 +42,10 @@ namespace Tanks
 
         private void SetupComponents()
         {
+            
             //here we need to grab the photon view
             photonView = GetComponent<PhotonView>(); //getting the photon view in this compoonent
-            Debug.Log($"My owner is {photonView.Owner.NickName}");
+            //Debug.Log($"{photonView.Owner}");
 
 
             tankShooting = GetComponent<TankShooting>();
