@@ -76,7 +76,7 @@ namespace Tanks
             var config = teamConfigs[team];
             var spawnPoint = config.spawnPoint;
 
-            PhotonNetwork.Instantiate("Tank", spawnPoint.position, spawnPoint.rotation);
+            PhotonNetwork.Instantiate(tankPrefab.name, spawnPoint.position, spawnPoint.rotation);
         }
 
         private void StartRound()
