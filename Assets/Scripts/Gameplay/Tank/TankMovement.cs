@@ -203,7 +203,7 @@ namespace Tanks
             photonView.RPC(
                 "TurnThrustersOn",
                 RpcTarget.All,
-                true
+                false
                 );
 
             //turn off turbo mode, turn on cooling mode
