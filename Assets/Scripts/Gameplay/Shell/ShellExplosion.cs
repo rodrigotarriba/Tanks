@@ -23,17 +23,40 @@ namespace Tanks
 
         private void OnTriggerEnter(Collider other)
         {
+            PlayExplosionEffect();
+            TryDamageTanks();
+
+            var photonView = GetComponent<PhotonView>();
+            if(photonView != null) //this means the missile is probably a homingMissile since they have a photonview
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.Destroy(photonView);
+                }
+            }
+            else //if its a reguylar bullet, for example
+            {
+                Destroy(gameObject);
+            }
+
+
+        }
+
+        private void PlayExplosionEffect()
+        {
+            if(explosionParticles == null)
+            {
+                return;
+            }
+            
             explosionParticles.transform.parent = null;
             explosionParticles.Play();
             explosionAudio.Play();
 
             ParticleSystem.MainModule mainModule = explosionParticles.main;
             Destroy(explosionParticles.gameObject, mainModule.duration);
-            Destroy(gameObject);
+            explosionParticles = null;
 
-            
-
-            TryDamageTanks();
         }
 
         //private void TryDamageTanks()
@@ -62,7 +85,7 @@ namespace Tanks
         //            explosionRadius,
         //            CalculateDamage(targetRigidbody.position));
         //    }
-            
+
         //}
 
 
