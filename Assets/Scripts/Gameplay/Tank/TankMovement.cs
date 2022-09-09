@@ -161,7 +161,7 @@ namespace Tanks
                 return;
             }
 
-
+            StartCoroutine(TurboMode());
 
             //check if turbo is off and cooldown is off
 
