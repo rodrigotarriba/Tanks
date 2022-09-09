@@ -180,7 +180,6 @@ namespace Tanks
             yield return null;
 
             isTurboOn = true;
-            thrusterParticles.gameObject.SetActive(true);
 
             photonView.RPC(
                 "TurnThrustersOn",
@@ -192,6 +191,7 @@ namespace Tanks
 
             while(turboTimer >= 0f)
             {
+                turboTimer -= Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
 
@@ -211,6 +211,7 @@ namespace Tanks
 
             while(coolingTimer >= 0f)
             {
+                coolingTimer -= Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
 
