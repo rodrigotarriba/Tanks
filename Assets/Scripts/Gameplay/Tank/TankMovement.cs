@@ -62,6 +62,8 @@ namespace Tanks
 
             particleSystems = GetComponentsInChildren<ParticleSystem>();
             foreach (var system in particleSystems) system.Play();
+
+            thrusterParticles.gameObject.SetActive(false);
         }
 
         private void OnDisable()
