@@ -106,7 +106,7 @@ namespace Tanks
 
             if (Input.GetKey(KeyCode.X))
             {
-                shieldRotation += shieldLoopSpeed/360 * Time.deltaTime;
+                shieldRotation += 360/shieldLoopSpeed * Time.deltaTime;
             }
 
             EngineAudio();
