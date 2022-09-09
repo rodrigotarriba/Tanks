@@ -13,7 +13,7 @@ namespace Tanks
         private GameObject canvasGameObject;
         private Player player;
         public PhotonView photonView;
-
+        
 
         // TODO: Get player nickname
         public string ColoredPlayerName => $"<color=#{ColorUtility.ToHtmlStringRGB(teamConfig.color)}>Nickname</color>";
@@ -45,6 +45,7 @@ namespace Tanks
             
             //here we need to grab the photon view
             photonView = GetComponent<PhotonView>(); //getting the photon view in this compoonent
+            
             //Debug.Log($"{photonView.Owner}");
 
 
@@ -90,5 +91,7 @@ namespace Tanks
             gameObject.SetActive(false);
             gameObject.SetActive(true);
         }
+
+        
     }
 }

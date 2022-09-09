@@ -7,6 +7,7 @@ namespace Tanks
     public class ShellExplosion : MonoBehaviour
     {
         public LayerMask tankMask;
+        public LayerMask shieldMask;
         public ParticleSystem explosionParticles;
         public AudioSource explosionAudio;
         public float maxDamage = 100f;
@@ -29,6 +30,8 @@ namespace Tanks
             ParticleSystem.MainModule mainModule = explosionParticles.main;
             Destroy(explosionParticles.gameObject, mainModule.duration);
             Destroy(gameObject);
+
+            
 
             TryDamageTanks();
         }
@@ -74,15 +77,30 @@ namespace Tanks
             Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, tankMask);
             for (int i = 0; i < colliders.Length; i++)
             {
+
                 var photonView = colliders[i].GetComponent<PhotonView>();
                 if (photonView == null) continue;
 
                 var tankManager = colliders[i].GetComponent<TankManager>();
                 if (tankManager == null) continue;
 
+                Collider[] shieldColliders = Physics.OverlapSphere(transform.position, .5f, shieldMask);
+                for (int x = 0; x < shieldColliders.Length; x++)
+                {
+                    
+                    //var shieldPhotonView = shieldColliders[x].GetComponent<PhotonView>();
+                    if (shieldColliders[x].gameObject.GetComponent<Transform>().parent.parent.gameObject == tankManager.gameObject)
+                    {
+                        return;
+                    }
+                }
+
+                Debug.Log("this one doesnt reach");
                 Rigidbody targetRigidbody = tankManager.GetComponent<Rigidbody>();
 
-                tankManager.photonView.RPC(
+
+
+               tankManager.photonView.RPC(
                     "OnHit",
                     //RpcTarget.All,
                     photonView.Owner, //we are only damaging the client that is receiving the hit, perhaps for resources allocation?
