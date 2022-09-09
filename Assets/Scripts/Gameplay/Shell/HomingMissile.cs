@@ -36,7 +36,7 @@ public class HomingMissile : MonoBehaviour, IPunInstantiateMagicCallback
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log("it should be moving now");
+        
         if (!photonView.IsMine)
         {
             return;

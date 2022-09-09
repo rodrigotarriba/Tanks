@@ -37,11 +37,14 @@ namespace Tanks
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    //Debug.Log("this objects photonView will be destroyed"); 
                     PhotonNetwork.Destroy(photonView);
+                    
                 }
             }
             else //if its a regular bullet, for example
             {
+                //Debug.Log("this objects will be regularly destroyed");
                 Destroy(gameObject);
             }
 
@@ -52,11 +55,11 @@ namespace Tanks
         {
             if(explosionParticles == null)
             {
-                Debug.Log("explosionparticles dont exist");
+                //Debug.Log("explosionparticles dont exist");
                 return;
             }
             
-            explosionParticles.transform.parent = null;
+            explosionParticles.transform.parent = null;//this way they dont move with the parent gameObject
             explosionParticles.Play();
             explosionAudio.Play();
 
@@ -125,7 +128,7 @@ namespace Tanks
                     }
                 }
 
-                Debug.Log("this one doesnt reach");
+                //Debug.Log("this one doesnt reach");
                 Rigidbody targetRigidbody = tankManager.GetComponent<Rigidbody>();
 
 

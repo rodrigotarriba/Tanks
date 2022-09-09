@@ -208,6 +208,7 @@ MonoBehaviour:
   explosionForce: 1000
   maxLifeTime: 200
   explosionRadius: 5
+  photonView: {fileID: 0}
 --- !u!114 &2738368952067613157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +257,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
   - {fileID: 7458932347490074629}
