@@ -34,7 +34,6 @@ namespace Tanks
         private bool isTurboOn = false;
         private bool isCoolingDown = false;
         private float speed;
-        private bool turboInput = false;
 
         //shield rotation
         public Transform shieldAnchor;
