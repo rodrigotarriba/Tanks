@@ -10619,12 +10619,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4cc0827b572b5408b2cd8eb8b456b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
+  regularSpeed: 12
+  turboSpeed: 24
   turnSpeed: 180
   movementAudio: {fileID: 8261418}
   engineIdling: {fileID: 8300000, guid: 4932ab25b84dd7649b80af68a9660ddc, type: 3}
   engineDriving: {fileID: 8300000, guid: d7ca9fb5aa30155449192b23d7fb3336, type: 3}
   pitchRange: 0.2
+  thrusterParticles: {fileID: 8815270314242078661}
+  turboMaxTime: 3
+  coolingMaxTime: 3
 --- !u!114 &11409376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11003,6 +11007,12 @@ PrefabInstance:
 --- !u!4 &8685152336980614645 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 276880696395854760, guid: 4380ddb977821b849bff2105e5e7aedd,
+    type: 3}
+  m_PrefabInstance: {fileID: 8885726919907372637}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8815270314242078661 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 73834590170880408, guid: 4380ddb977821b849bff2105e5e7aedd,
     type: 3}
   m_PrefabInstance: {fileID: 8885726919907372637}
   m_PrefabAsset: {fileID: 0}
