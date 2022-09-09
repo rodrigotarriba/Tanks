@@ -223,9 +223,19 @@ namespace Tanks
 
 
         [PunRPC]
-        public void TurnThrustersOn(bool thrustersState)
+        private void TurnThrustersOn(bool thrustersState)
         {
+            Debug.Log("turn thrusters on activated");
             thrusterParticles.gameObject.SetActive(thrustersState);
+
+            if (thrustersState)
+            {
+                thrusterParticles.Play();
+            }
+            else
+            {
+                thrusterParticles.Stop();
+            }
         }
 
     }
