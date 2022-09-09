@@ -21,6 +21,11 @@ public class HomingMissile : MonoBehaviour, IPunInstantiateMagicCallback
     private Rigidbody target;
     private int targetViewID;
 
+    public void Awake()
+    {
+        photonView = GetComponent<PhotonView>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,11 +35,13 @@ public class HomingMissile : MonoBehaviour, IPunInstantiateMagicCallback
     // Update is called once per frame
     void FixedUpdate()
     {
+        Debug.Log("it should be moving now");
         if (!photonView.IsMine)
         {
             return;
         }
 
+        
         //Determine the target direction we are going
         var direction = (target.position - transform.position).normalized;
         

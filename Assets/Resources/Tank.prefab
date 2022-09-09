@@ -10631,6 +10631,8 @@ MonoBehaviour:
   turboMaxTime: 3
   coolingMaxTime: 3
   shieldAnchor: {fileID: 2286579886491857548}
+  shieldRotation: 0
+  shieldLoopSpeed: 3
 --- !u!114 &11409376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10670,6 +10672,7 @@ MonoBehaviour:
   minLaunchForce: 15
   maxLaunchForce: 30
   maxChargeTime: 0.75
+  homingMissileInstantiateOffset: 4
 --- !u!114 &6490231415263022071
 MonoBehaviour:
   m_ObjectHideFlags: 0
