@@ -58,7 +58,7 @@ namespace Tanks
 
             //Default tank rotation
             shieldRotation = -90f;
-            shieldAnchor.rotation = Quaternion.Euler(new Vector3(0f, shieldRotation, 0f));
+            shieldAnchor.localRotation = Quaternion.Euler(new Vector3(0f, shieldRotation, 0f));
         }
 
         private void OnEnable()
@@ -88,7 +88,7 @@ namespace Tanks
 
         private void Update()
         {
-            shieldAnchor.rotation = Quaternion.Euler(new Vector3(0f, shieldRotation, 0f));
+            shieldAnchor.localRotation = Quaternion.Euler(new Vector3(0f, shieldRotation, 0f));
             
             //Guard clause, only allow owner of this tank to move it
             if (!photonView.IsMine)
