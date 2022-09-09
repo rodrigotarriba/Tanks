@@ -17,7 +17,7 @@ namespace Tanks
 
         private void Start()
         {
-            Destroy(gameObject, maxLifeTime);
+            Destroy(gameObject, maxLifeTime); //clever way of managing the max lifetime of the missile
         }
 
 
@@ -46,6 +46,7 @@ namespace Tanks
         {
             if(explosionParticles == null)
             {
+                Debug.Log("explosionparticles dont exist");
                 return;
             }
             
