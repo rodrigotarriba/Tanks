@@ -24,6 +24,7 @@ public class HomingMissile : MonoBehaviour, IPunInstantiateMagicCallback
     public void Awake()
     {
         photonView = GetComponent<PhotonView>();
+        missileRigidbody = GetComponent<Rigidbody>();
     }
 
     // Start is called before the first frame update
