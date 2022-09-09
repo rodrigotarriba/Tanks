@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Tanks
 {
-    public class TankMovement : MonoBehaviour
+    public class TankMovement : MonoBehaviour, IPunObservable
     {
         private const string MOVEMENT_AXIS_NAME = "Vertical";
         private const string TURN_AXIS_NAME = "Horizontal";
@@ -36,6 +36,10 @@ namespace Tanks
         private float speed;
         private bool turboInput = false;
 
+        //shield rotation
+        public Transform shieldAnchor;
+        public float shieldRotation;
+        public float shieldLoopSpeed = 3f;
 
         public void GotHit(float explosionForce, Vector3 explosionSource, float explosionRadius)
         {
@@ -51,6 +55,10 @@ namespace Tanks
             tankRigidbody = GetComponent<Rigidbody>();
 
             tankRigidbody.isKinematic = false;
+
+            //Default tank rotation
+            shieldRotation = -90f;
+            shieldAnchor.rotation = Quaternion.Euler(new Vector3(0f, shieldRotation, 0f));
         }
 
         private void OnEnable()
@@ -80,6 +88,8 @@ namespace Tanks
 
         private void Update()
         {
+            shieldAnchor.rotation = Quaternion.Euler(new Vector3(0f, shieldRotation, 0f));
+            
             //Guard clause, only allow owner of this tank to move it
             if (!photonView.IsMine)
             {
@@ -92,6 +102,11 @@ namespace Tanks
             if (Input.GetKeyDown(KeyCode.T))
             {
                 TurboCheck();
+            }
+
+            if (Input.GetKey(KeyCode.X))
+            {
+                shieldRotation += 360/shieldLoopSpeed * Time.deltaTime;
             }
 
             EngineAudio();
@@ -238,5 +253,61 @@ namespace Tanks
             }
         }
 
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                stream.SendNext(shieldRotation); 
+            }
+
+            if (stream.IsReading)
+            {
+                shieldRotation = (float)stream.ReceiveNext();
+            }
+        }
+
+
     }
 }
+
+//FROM NAKISAS'SOLUTION - TERNIARY OPERATORS THAT CHECK STATUS
+//private bool CanUseTurbo => remainingTurboCooldown <= 0;
+//private bool IsTurboActive => remainingTurboDuration > 0;
+////Define the current speed depending on whether IsTurboActive returns true, if so, current speed equals turbo speed, if not, equals speed.
+//private float CurrentSpeed => IsTurboActive ? turboSpeed : speed;
+
+//[PunRPC]
+//private void Turbo()
+//{
+//    remainingTurboDuration = turboDuration;
+//    turboParticles.Play();
+//}
+
+//private void UpdateTurbo()
+//{
+//    // decrease remaining turbo duration
+//    remainingTurboDuration -= Time.deltaTime;
+
+//    // check to see if the turbo is active and if the particles are playing, if they are stop the particles, turbo has stopped
+//    if (!IsTurboActive && turboParticles.isPlaying)
+//    {
+//        turboParticles.Stop();
+//    }
+//}
+
+//private void TryUseTurbo()
+//{
+//    // decrease cooldown
+//    remainingTurboCooldown -= Time.deltaTime;
+
+//    // if we can't use the turbo and the turbo button isn't down, don't do anything
+//    if (!CanUseTurbo || !Input.GetButtonDown(TURBO_BUTTON))
+//    {
+//        return;
+//    }
+
+//    // update the turbo cooldown
+//    remainingTurboCooldown = turboCooldown;
+
+//    // call the Turbo RPC on all clients
+//    photonView.RPC("Turbo", RpcTarget.All);
