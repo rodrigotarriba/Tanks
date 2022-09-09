@@ -14,6 +14,12 @@ namespace Tanks
         public float explosionForce = 1000f;
         public float maxLifeTime = 2f;
         public float explosionRadius = 5f;
+        public PhotonView photonView;
+
+        private void Awake()
+        {
+            photonView = GetComponent<PhotonView>();
+        }
 
         private void Start()
         {
@@ -26,7 +32,7 @@ namespace Tanks
             PlayExplosionEffect();
             TryDamageTanks();
 
-            var photonView = GetComponent<PhotonView>();
+
             if(photonView != null) //this means the missile is probably a homingMissile since they have a photonview
             {
                 if (PhotonNetwork.IsMasterClient)
@@ -34,7 +40,7 @@ namespace Tanks
                     PhotonNetwork.Destroy(photonView);
                 }
             }
-            else //if its a reguylar bullet, for example
+            else //if its a regular bullet, for example
             {
                 Destroy(gameObject);
             }
