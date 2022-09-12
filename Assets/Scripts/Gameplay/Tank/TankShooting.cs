@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 namespace Tanks
 {
-    public class TankShooting : MonoBehaviour
+
+    public class TankShooting : MonoBehaviour, IPunObservable
     {
         private const string FIRE_BUTTON = "Fire1";
         private const string HOMING_MISSILE_BUTTON = "Fire2";
@@ -72,6 +73,7 @@ namespace Tanks
 
         }
 
+
         private void TryFireMissile()
         {
             aimSlider.value = minLaunchForce;
@@ -86,14 +88,15 @@ namespace Tanks
                 fired = false;
                 currentLaunchForce = minLaunchForce;
 
-                shootingAudio.clip = chargingClip;
-                shootingAudio.Play();
+                //Charging feedback sent to all clients
+                photonView.RPC( "BeginCharging", RpcTarget.All );
             }
             else if (Input.GetButton(FIRE_BUTTON) && !fired)
             {
                 currentLaunchForce += chargeSpeed * Time.deltaTime;
 
                 aimSlider.value = currentLaunchForce;
+
             }
             else if (Input.GetButtonUp(FIRE_BUTTON) && !fired)
             {
@@ -162,6 +165,18 @@ namespace Tanks
             currentLaunchForce = minLaunchForce;
         }
 
+        [PunRPC]
+        private void BeginCharging()
+        {
+            shootingAudio.clip = chargingClip;
+            shootingAudio.Play();
+        }
+
+        [PunRPC]
+        private void UpdateSlider(float newSliderValue)
+        {
+            aimSlider.value = newSliderValue;
+        }
 
         [PunRPC]
         private void FireMissile(Vector3 position, Quaternion rotation, Vector3 velocity)
@@ -173,7 +188,19 @@ namespace Tanks
             shootingAudio.Play();
         }
 
-        
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                stream.SendNext(aimSlider.value);
+                Debug.Log("Is sending");
+            }
+
+            if (stream.IsReading)
+            {
+                aimSlider.value = (float)stream.ReceiveNext();
+            }
+        }
     }
 
 
