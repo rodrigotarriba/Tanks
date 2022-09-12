@@ -42,6 +42,8 @@ MonoBehaviour:
   - OnHit
   - TurnThrustersOn
   - FireMissile
+  - BeginCharging
+  - UpdateSlider
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
